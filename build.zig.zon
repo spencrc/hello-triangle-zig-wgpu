@@ -9,8 +9,8 @@
             .hash = "glfw_zig-1.0.0-NrvYo77XGQBb0-E-2U1eurqWuIJeI1zFbKC2vZaeKORt",
         },
         .zglfw = .{
-            .url = "git+https://github.com/spencrc/zglfw.git#0f075d1ec5651a351339845e8b30d1d0a050d9f5",
-            .hash = "zglfw-0.1.0-BghZXYHRAAC2W2VCEso7aUXEGQMz-hSoUuV4WrUA1jgC",
+            .url = "git+https://github.com/spencrc/zglfw.git#022397baacd9e7c90a0d6906c61cb4f256ac4e1c",
+            .hash = "zglfw-0.1.0-BghZXX_RAABPgpc45Bbvv_TIh6Mo7RBv0oJGYbEUHbOl",
         },
         .wgpu_native_zig = .{
             .url = "git+https://github.com/andrewtdiz/wgpu_native_zig.git#8f1ae3e7561f11e0bf0c6d122f9a53f68991c26d",
