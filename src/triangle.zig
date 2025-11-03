@@ -7,13 +7,14 @@ var window: *glfw.Window = undefined;
 var device: *wgpu.Device = undefined;
 var queue: *wgpu.Queue = undefined;
 var surface: *wgpu.Surface = undefined;
-var uncaptured_error_callback_handle: wgpu.UncapturedErrorCallback = undefined;
 var surface_format: wgpu.TextureFormat = undefined;
 var pipeline: *wgpu.RenderPipeline = undefined;
 
 fn init() !bool {
+    // Open window
     try glfw.init();
-
+    glfw.windowHint(glfw.ClientAPI, glfw.NoAPI);
+    glfw.windowHint(glfw.Resizable, 0);
     window = try glfw.createWindow(640, 480, "Hello Triangle", null, null);
 
     var instance = wgpu.Instance.create(null).?;
@@ -48,6 +49,7 @@ fn init() !bool {
     _ = surface.getCapabilities(adapter, &capabilities);
     surface_format = capabilities.formats[0];
 
+    // Configure the surface
     surface.configure(&wgpu.SurfaceConfiguration{
         .next_in_chain = null,
         .width = 640,
@@ -65,44 +67,14 @@ fn init() !bool {
     return true;
 }
 
-fn init_pipeline() void {
-    const shader_module = device.createShaderModule(&wgpu.shaderModuleWGSLDescriptor(.{
-        .code = @embedFile("triangle.wgsl"),
-    })).?;
-    defer shader_module.release();
-
-    const color_targets = &[_]wgpu.ColorTargetState{
-        wgpu.ColorTargetState{
-            .format = surface_format,
-            .blend = &wgpu.BlendState{
-                .color = wgpu.BlendComponent{
-                    .operation = .add,
-                    .src_factor = .src_alpha,
-                    .dst_factor = .one_minus_src_alpha,
-                },
-                .alpha = wgpu.BlendComponent{
-                    .operation = .add,
-                    .src_factor = .zero,
-                    .dst_factor = .one,
-                },
-            },
-        },
-    };
-
-    pipeline = device.createRenderPipeline(&wgpu.RenderPipelineDescriptor{
-        .vertex = .{
-            .module = shader_module,
-            .entry_point = wgpu.StringView.fromSlice("vs_main"),
-        },
-        .primitive = wgpu.PrimitiveState{},
-        .fragment = &wgpu.FragmentState{
-            .module = shader_module,
-            .entry_point = wgpu.StringView.fromSlice("fs_main"),
-            .target_count = color_targets.len,
-            .targets = color_targets.ptr,
-        },
-        .multisample = wgpu.MultisampleState{},
-    }).?;
+fn terminate() void {
+    pipeline.release();
+    surface.unconfigure();
+    queue.release();
+    surface.release();
+    device.release();
+    glfw.destroyWindow(window);
+    glfw.terminate();
 }
 
 fn main_loop() void {
@@ -166,14 +138,44 @@ fn get_next_surface_texture_view(surface_texture: *wgpu.SurfaceTexture) ?*wgpu.T
     return texture.createView(&view_desc);
 }
 
-fn terminate() void {
-    pipeline.release();
-    surface.unconfigure();
-    queue.release();
-    surface.release();
-    device.release();
-    glfw.destroyWindow(window);
-    glfw.terminate();
+fn init_pipeline() void {
+    const shader_module = device.createShaderModule(&wgpu.shaderModuleWGSLDescriptor(.{
+        .code = @embedFile("triangle.wgsl"),
+    })).?;
+    defer shader_module.release();
+
+    const color_targets = &[_]wgpu.ColorTargetState{
+        wgpu.ColorTargetState{
+            .format = surface_format,
+            .blend = &wgpu.BlendState{
+                .color = wgpu.BlendComponent{
+                    .operation = .add,
+                    .src_factor = .src_alpha,
+                    .dst_factor = .one_minus_src_alpha,
+                },
+                .alpha = wgpu.BlendComponent{
+                    .operation = .add,
+                    .src_factor = .zero,
+                    .dst_factor = .one,
+                },
+            },
+        },
+    };
+
+    pipeline = device.createRenderPipeline(&wgpu.RenderPipelineDescriptor{
+        .vertex = .{
+            .module = shader_module,
+            .entry_point = wgpu.StringView.fromSlice("vs_main"),
+        },
+        .primitive = wgpu.PrimitiveState{},
+        .fragment = &wgpu.FragmentState{
+            .module = shader_module,
+            .entry_point = wgpu.StringView.fromSlice("fs_main"),
+            .target_count = color_targets.len,
+            .targets = color_targets.ptr,
+        },
+        .multisample = wgpu.MultisampleState{},
+    }).?;
 }
 
 pub fn main() !void {
