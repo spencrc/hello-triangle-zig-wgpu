@@ -3,7 +3,7 @@
 
 Opens a window using [glfw](https://github.com/glfw/glfw) and draws a triangle with [wgpu-native](https://github.com/gfx-rs/wgpu-native/), all in [Zig](https://ziglang.org/). Builds and runs on Windows, Linux (using either X11 or Wayland), and MacOS.
 
-This project is based on the [Hello Triangle](https://eliemichel.github.io/LearnWebGPU/basic-3d-rendering/hello-triangle.html) from the C++ [Learn WebGPU native](https://eliemichel.github.io/LearnWebGPU/) course.
+![Hello Triangle](/triangle.png)
 
 ## Dependencies
 This project depends on:
@@ -61,5 +61,7 @@ if (target.result.os.tag == .macos) {
 }
 ```
 ## Credit
+This project is based on the [Hello Triangle](https://eliemichel.github.io/LearnWebGPU/basic-3d-rendering/hello-triangle.html) from the C++ [Learn WebGPU native](https://eliemichel.github.io/LearnWebGPU/) course.
+
 `glfw_wgpu.zig` is based on [TheOnlySilverClaw/Valdala](https://github.com/TheOnlySilverClaw/Valdala/tree/development)'s [`surface.zig`](https://github.com/TheOnlySilverClaw/Valdala/blob/b843063d9b4219e89155dd1a048013335eebccff/src/glfw-wgpu/surface.zig), whilst `metal_layer.m` is a copy of [`metal_layer.m`](https://github.com/TheOnlySilverClaw/Valdala/blob/b843063d9b4219e89155dd1a048013335eebccff/src/glfw-wgpu/metal_layer.m).
 Please check out Valdala!
