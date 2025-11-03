@@ -1,5 +1,4 @@
 const std = @import("std");
-const builtin = @import("builtin");
 
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
@@ -23,7 +22,7 @@ pub fn build(b: *std.Build) void {
             .{ .name = "wgpu", .module = wgpu_native_dep.module("wgpu") },
         },
     });
-    if (builtin.os.tag == .macos) {
+    if (target.result.os.tag == .macos) {
         glfw_wgpu_mod.addCSourceFile(.{
             .file = b.path("lib/metal/metal_layer.m"),
             .language = .objective_c,
