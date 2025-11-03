@@ -9,7 +9,7 @@ Opens a window using [glfw](https://github.com/glfw/glfw) and draws a triangle w
 This project depends on:
 - [spencrc/zglfw](https://github.com/spencrc/zglfw)
 - [tiawl/glfw.zig](https://github.com/tiawl/glfw.zig#d4e35d81f30ec1398d5b40744968459d5a8786e6)
-- [bronter/wgpu_native_zig](https://github.com/bronter/wgpu_native_zig)
+- [andrewtdiz/wgpu_native_zig](https://github.com/andrewtdiz/wgpu_native_zig)
 
 If you want to build this project using [zig-gamedev/zglfw](https://github.com/zig-gamedev/zglfw), you'll have to make very minor changes to the parameters passed to each glfw function call. 
 The bindings used here aim to mirror zig-gamedev/zglfw's enums and function names whilst remaining as close as possible to glfw's function definitions.
