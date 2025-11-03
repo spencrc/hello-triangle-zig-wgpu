@@ -8,15 +8,17 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         backend: [none, x11, wayland]
-        include:
+        exclude:
           - os: ubuntu-latest
-            backend: x11
-          - os: ubuntu-latest
-            backend: wayland
+            backend: none
           - os: macos-latest
-            backend: none
+            backend: x11
           - os: windows-latest
-            backend: none
+            backend: x11
+          - os: macos-latest
+            backend: wayland
+          - os: windows-latest
+            backend: wayland
       fail-fast: false
     runs-on: ${{matrix.os}}
     name: Build
