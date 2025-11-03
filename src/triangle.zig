@@ -13,8 +13,8 @@ var pipeline: *wgpu.RenderPipeline = undefined;
 fn init() !bool {
     // Open window
     try glfw.init();
-    glfw.windowHint(glfw.ClientAPI, glfw.NoAPI);
-    glfw.windowHint(glfw.Resizable, 0);
+    glfw.windowHint(.client_api, .no_api);
+    glfw.windowHint(.resizable, false); // 0 is equivalent to GLFW_FALSE
     window = try glfw.createWindow(640, 480, "Hello Triangle", null, null);
 
     var instance = wgpu.Instance.create(null).?;

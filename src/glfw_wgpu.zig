@@ -6,7 +6,7 @@ const target_os = @import("builtin").target.os.tag;
 pub fn createSurface(instance: *wgpu.Instance, window: *glfw.Window) !*wgpu.Surface {
     switch (target_os) {
         .linux => {
-            return switch (glfw.platform.getPlatform()) {
+            return switch (glfw.getPlatform()) {
                 .x11 => createX11Surface(instance, window),
                 .wayland => createWaylandSurface(instance, window),
                 else => return error.PlatformUnsupported,
