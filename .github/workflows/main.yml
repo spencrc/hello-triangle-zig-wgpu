@@ -1,0 +1,56 @@
+name: ci
+
+on: [push, pull_request]
+
+jobs:
+  build-and-run:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        backend: [none, x11, wayland]
+        include:
+          - os: ubuntu-latest
+            backend: x11
+          - os: ubuntu-latest
+            backend: wayland
+          - os: macos-latest
+            backend: none
+          - os: windows-latest
+            backend: none
+      fail-fast: false
+    runs-on: ${{matrix.os}}
+    name: Build
+    steps:
+      - uses: actions/checkout@v3
+      - uses: mlugg/setup-zig@v2
+        with:
+          version: 0.15.1
+
+      - name: Prepare Linux
+        if: runner.os == 'Linux'
+        run: |
+            sudo apt-get update
+            if [ $"{{ matrix.backend }}" = "x11"]; then
+              sudo apt-get install mesa-utils mesa-common-dev libgl1-mesa-dev xorg-dev
+            else
+              sudo apt-get install libwayland-dev libgl1-mesa-dev
+            fi
+
+      - name: Build
+        run: zig build
+
+      - name: Smoke test (MacOS, Linux)
+        if: runner.os != 'Windows'
+        run: |
+          ./zig-out/bin/Hello_Triangle &
+          PID=$!
+          sleep 5
+          kill $PID || true
+
+      - name: Smoke test (Windows)
+        if: runner.os == 'Windows'
+        run: Start-Process .\zig-out\bin\Hello_Triangle.exe -PassThru | Tee-Object -Variable p; Start-Sleep 5; Stop-Process $p.Id -Force
+
+
+
+
