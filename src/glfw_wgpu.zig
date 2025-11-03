@@ -20,7 +20,7 @@ pub fn createSurface(instance: *wgpu.Instance, window: *glfw.Window) !*wgpu.Surf
 
 fn createX11Surface(instance: *wgpu.Instance, window: *glfw.Window) !*wgpu.Surface {
     const x11_display = glfw.getX11Display() orelse return error.SurfaceCreationError;
-    const x11_window = glfw.getX11Window(window) orelse return error.SurfaceCreationError;
+    const x11_window = glfw.getX11Window(window);
 
     const x11_surface_desc = wgpu.surfaceDescriptorFromXlibWindow(.{
         .display = x11_display,
