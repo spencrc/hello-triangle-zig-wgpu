@@ -1,0 +1,26 @@
+.{
+    .name = .glfw_wgpu,
+    .version = "0.0.0",
+    .fingerprint = 0xa96de84e8a9efe06,
+    .minimum_zig_version = "0.15.2",
+    .dependencies = .{
+        .glfw_zig = .{
+            .url = "git+https://github.com/tiawl/glfw.zig.git#d4e35d81f30ec1398d5b40744968459d5a8786e6",
+            .hash = "glfw_zig-1.0.0-NrvYo77XGQBb0-E-2U1eurqWuIJeI1zFbKC2vZaeKORt",
+        },
+        .zglfw = .{
+            .url = "git+https://github.com/spencrc/zglfw.git#6021c91544ef770a20dad240b7aa361b6041c1b7",
+            .hash = "zglfw-0.1.0-BghZXZvZAACueJr9Kiilpq_hct3QZYuSEdJXLLhGYuSa",
+        },
+        .wgpu_native_zig = .{
+            .url = "git+https://github.com/andrewtdiz/wgpu_native_zig.git#8f1ae3e7561f11e0bf0c6d122f9a53f68991c26d",
+            .hash = "wgpu_native_zig-6.5.0-B9jeDFtzAwDr9PMCn2Rln4ok2fOSxVLxej7bf6UeyVwU",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "lib",
+    },
+}
